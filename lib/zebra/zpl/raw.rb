@@ -8,10 +8,10 @@ module Zebra
       attr_reader :width
 
       def width=(width)
-        unless margin.nil? || margin < 1
-          @width = (width - (margin * 2))
-        else
+        if margin.nil? || margin < 1
           @width = width || 0
+        else
+          @width = (width - (margin * 2))
         end
       end
 
@@ -19,7 +19,6 @@ module Zebra
         # check_attributes
         "^FW#{rotation}^FO#{x},#{y}#{data}^FS"
       end
-
     end
   end
 end

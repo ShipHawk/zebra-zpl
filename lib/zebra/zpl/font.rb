@@ -13,6 +13,10 @@ module Zebra
       SIZE_7 = 100 # 32pt
       SIZE_8 = 111 # 40pt
       SIZE_9 = 133 # 48pt
+      SIZE_10 = 150
+      SIZE_11 = 170
+      SIZE_12 = 190
+      SIZE_13 = 220
 
       def self.valid_font_size?(font_size)
         (0..32000).include?(font_size.to_i)
