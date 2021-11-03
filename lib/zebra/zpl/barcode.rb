@@ -3,15 +3,17 @@ require "zebra/zpl/printable"
 module Zebra
   module Zpl
     class Barcode
+      APPLICATION_IDENTIFIER_REGEX = /^\(\d+\).+/.freeze
+
       include Printable
 
       class InvalidRatioError < StandardError; end
       class InvalidNarrowBarWidthError < StandardError; end
       class InvalidWideBarWidthError   < StandardError; end
 
-      attr_accessor :height
+      attr_accessor :height, :application_identifier
       attr_reader :type, :ratio, :narrow_bar_width, :wide_bar_width
-      attr_writer :print_human_readable_code
+      attr_writer :print_human_readable_code, :print_text_above
 
       def width=(value)
         @width = value || 0
@@ -53,10 +55,35 @@ module Zebra
         @print_human_readable_code || false
       end
 
+      def human_readable
+        print_human_readable_code ? "Y" : "N"
+      end
+
+      def print_text_above
+        @print_text_above || false
+      end
+
+      def text_above
+        print_text_above ? "Y" : "N"
+      end
+
+      # ShipHawk trick: Start
+      def mode
+        if application_identifier || data.to_s.match?(APPLICATION_IDENTIFIER_REGEX)
+          'D'
+        else
+          'A'
+        end
+      end
+
+      def mode_prefix
+        application_identifier ? "(#{application_identifier})" : nil
+      end
+      # ShipHawk trick: End
+
       def to_zpl
         check_attributes
-        human_readable = print_human_readable_code ? "Y" : "N"
-        "^FW#{rotation}^FO#{x},#{y}^BY#{width},#{ratio},#{height}^B#{type}#{rotation},,#{human_readable}^FD#{data}^FS"
+        "^FW#{rotation}^FO#{x},#{y}^BY#{width},#{ratio},#{height}^B#{type}#{rotation},,#{human_readable},#{text_above},,#{mode}^FD#{mode_prefix}#{data}^FS"
       end
 
       private
