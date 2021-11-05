@@ -11,7 +11,7 @@ module Zebra
       class InvalidNarrowBarWidthError < StandardError; end
       class InvalidWideBarWidthError   < StandardError; end
 
-      attr_accessor :height, :application_identifier
+      attr_accessor :height
       attr_reader :type, :ratio, :narrow_bar_width, :wide_bar_width
       attr_writer :print_human_readable_code, :print_text_above
 
@@ -69,21 +69,17 @@ module Zebra
 
       # ShipHawk trick: Start
       def mode
-        if application_identifier || data.to_s.match?(APPLICATION_IDENTIFIER_REGEX)
+        if data.to_s.match?(APPLICATION_IDENTIFIER_REGEX)
           'D'
         else
           'A'
         end
       end
-
-      def mode_prefix
-        application_identifier ? "(#{application_identifier})" : nil
-      end
       # ShipHawk trick: End
 
       def to_zpl
         check_attributes
-        "^FW#{rotation}^FO#{x},#{y}^BY#{width},#{ratio},#{height}^B#{type}#{rotation},,#{human_readable},#{text_above},,#{mode}^FD#{mode_prefix}#{data}^FS"
+        "^FW#{rotation}^FO#{x},#{y}^BY#{width},#{ratio},#{height}^B#{type}#{rotation},,#{human_readable},#{text_above},,#{mode}^FD#{data}^FS"
       end
 
       private

@@ -66,8 +66,8 @@ module Zebra
         if bold.nil?
           "^FW#{rotation}^A#{font_type},#{font_size}^CI28^FO#{x},#{y}^FB#{width},#{max_lines},#{line_spacing},#{justification},#{hanging_indent}#{appear_in_reverse}^FD#{data}^FS"
         else
-          "^FW#{rotation}^A#{font_type},#{font_size}^CI28^FO#{x+2},#{y}^FB#{width},#{max_lines},#{line_spacing},#{justification},#{hanging_indent}#{appear_in_reverse}^FD#{data}^FS" +
-          "^FW#{rotation}^A#{font_type},#{font_size}^CI28^FO#{x},#{y+2}^FB#{width},#{max_lines},#{line_spacing},#{justification},#{hanging_indent}#{appear_in_reverse}^FD#{data}^FS"
+          "^FW#{rotation}^A#{font_type},#{font_size}^CI28^FO#{x+1},#{y}^FB#{width},#{max_lines},#{line_spacing},#{justification},#{hanging_indent}#{appear_in_reverse}^FD#{data}^FS" +
+          "^FW#{rotation}^A#{font_type},#{font_size}^CI28^FO#{x},#{y+1}^FB#{width},#{max_lines},#{line_spacing},#{justification},#{hanging_indent}#{appear_in_reverse}^FD#{data}^FS"
         end
       end
 

@@ -72,6 +72,8 @@ module Zebra
         when "S"
           sym = !symbol_type.nil? ? "^FD#{symbol_type}" : ''
           "S,#{graphic_height},#{graphic_width}#{sym}"
+        else
+          raise InvalidGraphicType
         end
         "^FW#{rotation}^FO#{x},#{y}^G#{graphic}^FS"
       end
